@@ -1,0 +1,13 @@
+python-dotenv
+qdrant-client[fastembed]
+openai
+mistralai
+pymupdf
+python-pptx
+python-docx
+psycopg2-binary
+pillow
+pydantic
+python-multipart
+rich
+pyfiglet

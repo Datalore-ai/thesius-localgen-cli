@@ -1,0 +1,6 @@
+.venv
+venv
+qdrant_data
+.env
+**/__pycache__
+final_dataset.json
