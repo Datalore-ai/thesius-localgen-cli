@@ -98,8 +98,6 @@ python main.py
 
 You're all set to go! The app will now guide you through the workflow step by step.
 
----
-
 ## Authors
 
 - [Swaraj Biswal](https://github.com/swarajbiswal)
