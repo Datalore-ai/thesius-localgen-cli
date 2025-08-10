@@ -124,7 +124,18 @@ Once the environment and services are ready, start the application:
 python main.py
 ```
 
-You're all set to go! The app will now guide you through the workflow step by step.
+You're all set to go! The application will now guide you through the dataset creation process step by step and the final dataset will be saved in the output_files directory.
+
+### Optional: `configuration.py`
+
+You can customize how the tool behaves using the `configuration.py` file. It lets you adjust 2 parameters for this application.
+
+```python
+CONFIGURATION = {
+    "rows_per_context": 5,           # Number of QAs or rows generated per chunk
+    "evolution_depth": 1,            # How much transformation/evolution to apply (1 = minimal, 3 = very complex)
+}
+```
 
 ## Authors
 
