@@ -139,8 +139,8 @@ CONFIGURATION = {
 
 ## Authors
 
-- [Swaraj Biswal](https://github.com/swarajbiswal)
-- [Swadhin Biswal](https://github.com/swadhinbiswal)  
+- [Swaraj Biswal](https://github.com/SWARAJ-42)
+- [Swadhin Biswal](https://github.com/swadhin505)  
 
 
 ## Contributing
