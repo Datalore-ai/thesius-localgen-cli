@@ -41,11 +41,17 @@ This diagram shows how Datalore takes a local file and an instruction, extracts 
 
 Follow these steps to set up and run the project locally.
 
+### Prerequisite: Install `uv`
+
+`uv` is required to manage the virtual environment and dependencies.
+
+You can download it from the official [uv GitHub repository](https://github.com/astral-sh/uv), which includes platform-specific installation instructions.
+
 ### 1. Clone the Repository
 
 ```bash
-git clone <repository-url>
-cd project
+git clone https://github.com/Datalore-ai/datalore-localgen-cli.git
+cd datalore-localgen-cli
 ```
 
 ### 2. Create a Virtual Environment
@@ -70,7 +76,29 @@ Activate the environment depending on your OS:
 source .venv/bin/activate
 ```
 
-### 4. Install Dependencies
+### 4. Set Up Environment Variables
+
+Copy the example `.env` file and add your API keys:
+
+```bash
+cp .env.example .env
+```
+
+Open the `.env` file in a text editor and fill in the required fields:
+
+```
+OPENAI_API_KEY=your_openai_api_key_here
+MISTRAL=your_mistral_api_key_here
+
+# defaults
+QDRANT_URL=http://localhost:6333
+COLLECTION_NAME=knowledge_base
+EMBEDDING_MODEL=BAAI/bge-small-en-v1.5
+```
+
+These keys are essential for the application to work correctly.
+
+### 5. Install Dependencies
 
 Install required packages using:
 
@@ -78,7 +106,7 @@ Install required packages using:
 uv pip install -r requirements.txt
 ```
 
-### 5. Set Up Docker
+### 5. Set Up Docker for Qdrant vectorDB
 
 Make sure you have Docker and Docker Compose installed. Then start the required services (e.g., Qdrant) using:
 
