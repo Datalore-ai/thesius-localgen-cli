@@ -15,7 +15,7 @@ Datalore is a terminal tool for generating structured datasets from local files 
 
 ## How It Works
 
-- give the path to a local file resource (PDF, DOCX, JPG, TXT, etc.)  
+- give the path to a local directory containing all kind files mentioned (PDF, DOCX, JPG, TXT, etc.)  
 - extracts text from the uploaded document  
 - splits the content page-wise into smaller chunks  
 - randomly selects a chunk to use as a reference  
