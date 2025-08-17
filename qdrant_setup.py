@@ -1,8 +1,7 @@
 import os
 import random
 from dotenv import load_dotenv
-from qdrant_client import QdrantClient
-from qdrant_client import models
+from qdrant_client import QdrantClient, models
 
 load_dotenv()
 
@@ -56,7 +55,7 @@ def rag_pipeline_setup(user_id, documents):
     points=[
         models.PointStruct(
             id=idx,
-            vector=models.Document(text=document, model=model_name),
+            vector=models.Document(text=document["page_content"], model=model_name),
             payload={"group_id": user_id, "document": document},
         )
         for idx, document in enumerate(documents)
@@ -69,4 +68,6 @@ def select_random_chunk(documents):
     idx = random.randint(0, len(documents) - 1)
     selected_doc = documents[idx]
 
-    return idx, selected_doc
+    content = f"filename:{selected_doc['filename']}\nPage_number:{selected_doc['page_number']}\nPage_Content: {selected_doc["page_content"]}\n\n\n"
+
+    return idx, content

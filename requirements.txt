@@ -11,3 +11,5 @@ pydantic
 python-multipart
 rich
 pyfiglet
+google-genai
+pdfplumber

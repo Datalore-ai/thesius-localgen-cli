@@ -1,12 +1,14 @@
 import json
 import base64
 import io
+import pymupdf
 import fitz
 import os
 from pptx import Presentation
 from PIL import Image
 from docx import Document
 from mistralai import Mistral
+import pdfplumber
 import asyncio
 
 from qdrant_setup import *
@@ -16,8 +18,15 @@ from agents.evolution_agent.evolver import evolve_dataset
 from utils import process_datagen_prompt
 
 
-def encode_image_bytes(image_bytes: bytes):
-    return base64.b64encode(image_bytes).decode('utf-8')
+client = Mistral(api_key=os.getenv("MISTRAL_API_KEY"))
+
+def encode_pdf(pdf_bytes: bytes):
+    """Encode PDF bytes to a base64 string."""
+    try:
+        return base64.b64encode(pdf_bytes).decode("utf-8")
+    except Exception as e:
+        print(f"Error encoding PDF to base64: {e}")
+        return None
 
 def convert_to_pdf(file_bytes: bytes, filename: str):
     extension = filename.lower().split('.')[-1]
@@ -62,46 +71,68 @@ def convert_to_pdf(file_bytes: bytes, filename: str):
 
     else:
         raise ValueError(f"Unsupported file type: {extension}")
+    
+def process_page(idx, ocr_response=None):
+    try:
+        if ocr_response and hasattr(ocr_response, 'pages') and idx < len(ocr_response.pages):
+            return ocr_response.pages[idx].markdown
+        else:
+            return f"Error: Page {idx + 1} not available in OCR response"
+    except Exception as e:
+        return f"Error processing page {idx + 1}: {e}"
 
-def extract_pages_from_pdf_bytes(pdf_bytes: bytes):
-    doc = fitz.open(stream=pdf_bytes, filetype="pdf")
-    client = Mistral(api_key=os.getenv("MISTRAL_API_KEY"))
-    pages_data = []
+def extract_text_from_pdf(pdf_bytes: bytes):
+    try:
+        with pdfplumber.open(io.BytesIO(pdf_bytes)) as pdf:
+            total_pages = len(pdf.pages)
+    except Exception:
+        with pymupdf.open(stream=pdf_bytes, filetype="pdf") as doc:
+            total_pages = len(doc)
 
-    for page_num in range(len(doc)):
-        page = doc.load_page(page_num)
-        pix = page.get_pixmap()
-        img_bytes = pix.tobytes("png")
-        base64_image = encode_image_bytes(img_bytes)
+    pdf_bytes = encode_pdf(pdf_bytes)
 
-        try:
-            response = client.ocr.process(
-                model="mistral-ocr-latest",
-                document={"type": "image_url", "image_url": f"data:image/png;base64,{base64_image}"}
-            )
+    try:
+        response = client.ocr.process(
+            model="mistral-ocr-latest",
+            document={
+                "type": "document_url",
+                "document_url": f"data:application/pdf;base64,{pdf_bytes}"
+            },
+            include_image_base64=True
+        )
+    except Exception as e:
+        return [f"Error during OCR processing: {e}"]
 
-            page_text = " ".join([p.markdown for p in response.pages]) if hasattr(response, 'pages') else ""
-            pages_data.append({
-                "page_number": page_num + 1,
-                "content": page_text,
-                "metadata": {
-                    "dimensions": (pix.width, pix.height),
-                    "rotation": page.rotation
-                }
-            })
-            print(f"Processed page {page_num + 1}/{len(doc)}")
+    page_numbers = list(range(total_pages))
 
-        except Exception as e:
-            print(f"Error processing page {page_num + 1}: {str(e)}")
-            pages_data.append({
-                "page_number": page_num + 1,
-                "content": "",
-                "error": str(e)
-            })
+    extracted_text = []
+    for idx in page_numbers:
+        extracted_text.append(process_page(idx, ocr_response=response))
+        
+    return extracted_text
 
-    return pages_data
+def create_chunks(directory_path: str):
+    file_paths = [
+        os.path.abspath(os.path.join(directory_path, f))
+        for f in os.listdir(directory_path)
+        if os.path.isfile(os.path.join(directory_path, f))
+    ]
+    Chunks = []
+    for idx, file_path in enumerate(file_paths):
+        filename = os.path.basename(file_path)
+        with open(file_path, "rb") as f:
+            file_bytes = f.read()
+        
+        print(f"📑 Converting {filename} to pdf if necessary...")
+        converted_pdf_bytes = convert_to_pdf(file_bytes, filename)
 
-def process_page(page_data: str, system_prompt: str):
+        print(f"📑 Extracting pages from file {filename}...")
+        pages = extract_text_from_pdf(converted_pdf_bytes)
+        for page in pages:
+            Chunks.append({"filename": filename, "page_number": idx + 1,"page_content": page})
+    return Chunks
+
+def create_records(page_data: str, system_prompt: str):
     try:
         datarecords = generation_agent(page_data, system_prompt=system_prompt)
         return datarecords
@@ -109,22 +140,10 @@ def process_page(page_data: str, system_prompt: str):
         print(f"QA generation failed for a page: {str(e)}")
     return []
 
-async def generate_full_dataset(file_bytes: bytes, filename: str, system_prompt: str):
-    yield f"📄 Converting '{filename}' to PDF...\n\n"
-    converted_pdf_bytes = convert_to_pdf(file_bytes, filename)
-    await asyncio.sleep(0.3)
-
-    yield f"📑 Extracting pages from PDF...\n\n"
-    pages = extract_pages_from_pdf_bytes(converted_pdf_bytes)
-    total_pages = len(pages)
-    await asyncio.sleep(0.3)
+async def generate_full_dataset(directory_path: str, system_prompt: str):
+    Chunks = create_chunks(directory_path)
 
     dataset = []
-
-    # Create chunks
-    Chunks = []
-    for page in pages:
-        Chunks.append(page["content"])
     
     yield f"⚙️ Setting things up...\n\n"
     rag_pipeline_setup(user_id="test_user", documents=Chunks)
@@ -136,9 +155,9 @@ async def generate_full_dataset(file_bytes: bytes, filename: str, system_prompt:
         results = retrieve_from_store(current_chunk, user_id="test_user")
 
         # Context prep
-        context = "\n\n\n\n".join(f"Page: {int(r.id)+1}\nContent: {r.payload['document']}" for r in results)
+        context = "\n\n\n\n".join(f"filename:{result.payload['document']['filename']}\nPage_number:{result.payload['document']['page_number']}\nPage_Content: {result.payload['document']["page_content"]}" for result in results)
 
-        page_qas = process_page(context, system_prompt)
+        page_qas = create_records(context, system_prompt)
         dataset.extend(page_qas)
         page_qas = evolve_dataset(page_qas)
         dataset.extend(page_qas)

@@ -84,11 +84,11 @@ Suggestion from the user:
 """
             return feedback, updated_query
 
-async def run_and_save(file_bytes, filename, system_prompt):
+async def run_and_save(directory_path, system_prompt):
     status("Generating dataset rows...")
     dataset_rows = None
 
-    async for message in generate_full_dataset(file_bytes, filename, system_prompt):
+    async for message in generate_full_dataset(directory_path, system_prompt):
         if message.startswith("data:__DONE__:"):
             data_str = message[len("data:__DONE__:"):]
             data_json = json.loads(data_str)
@@ -112,11 +112,8 @@ async def run_and_save(file_bytes, filename, system_prompt):
 def main():
     render_banner()
 
-    file_path = Prompt.ask("[bold yellow]Enter the file path[/bold yellow]").strip()
-    base_query = Prompt.ask("[bold yellow]Enter additional instruction and information about the file source[/bold yellow]").strip()
-
-    with open(file_path, "rb") as f:
-        file_bytes = f.read()
+    directory_path = Prompt.ask("[bold yellow]Enter the directory path[/bold yellow]").strip()
+    base_query = Prompt.ask("[bold yellow]Enter additional instruction and information about the directory source[/bold yellow]").strip()
 
     current_query = base_query
     feedback = None
@@ -128,7 +125,7 @@ def main():
 
     # Generate dataset
     system_prompt = process_datagen_prompt(fields.generated_schema)
-    asyncio.run(run_and_save(file_bytes, file_path, system_prompt))
+    asyncio.run(run_and_save(directory_path, system_prompt))
 
 if __name__ == "__main__":
     main()
