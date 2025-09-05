@@ -1,6 +1,13 @@
 <div align="center">
   <img src="./assets/logo.png" alt="Datalore.ai" />
 </div>
+<p align="center">
+  <a href="https://github.com/Datalore-ai/datalore-localgen-cli/stargazers"><img src="https://img.shields.io/github/stars/Datalore-ai/datalore-localgen-cli?style=flat-square" alt="GitHub Stars"></a>
+  <a href="https://github.com/Datalore-ai/datalore-localgen-cli/blob/main/LICENSE"><img src="https://img.shields.io/github/license/Datalore-ai/datalore-localgen-cli?style=flat-square&color=purple" alt="License"></a>
+  <a href="https://github.com/Datalore-ai/datalore-localgen-cli/commits/main"><img src="https://img.shields.io/github/last-commit/Datalore-ai/datalore-localgen-cli?style=flat-square&color=blue" alt="Last Commit"></a>
+  <img src="https://img.shields.io/badge/Python-3.9%2B-blue?style=flat-square" alt="Python Version">
+  <a href="https://github.com/Datalore-ai/datalore-localgen-cli/graphs/contributors"><img src="https://img.shields.io/github/contributors/Datalore-ai/datalore-localgen-cli?style=flat-square&color=yellow" alt="Contributors"></a>
+</p>
 <br/>
 <br/>
 <div align="center">
