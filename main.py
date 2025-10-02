@@ -13,7 +13,7 @@ from workflow import generate_dataset_schema, generate_full_dataset, process_dat
 
 console = Console()
 
-def render_banner(title: str = "Datalore.ai", subtitle: str = "Document to Dataset Generator"):
+def render_banner(title: str = "Thesius.ai", subtitle: str = "Document to Dataset Generator"):
     figlet = Figlet(font="banner3-D", width=200)
     ascii_art = figlet.renderText(title)
     panel = Panel.fit(
