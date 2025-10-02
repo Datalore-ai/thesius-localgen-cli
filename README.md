@@ -1,6 +1,7 @@
-<div align="center">
+<!-- <div align="center">
   <img src="./assets/logo.png" alt="Datalore.ai" />
-</div>
+</div> -->
+<h1>thesius.ai - local dataset generator</h1>
 <p align="center">
   <a href="https://github.com/Datalore-ai/datalore-localgen-cli/stargazers"><img src="https://img.shields.io/github/stars/Datalore-ai/datalore-localgen-cli?style=flat-square" alt="GitHub Stars"></a>
   <a href="https://github.com/Datalore-ai/datalore-localgen-cli/blob/main/LICENSE"><img src="https://img.shields.io/github/license/Datalore-ai/datalore-localgen-cli?style=flat-square&color=purple" alt="License"></a>
@@ -17,7 +18,7 @@
 
 ## Overview
 
-Datalore is a terminal tool for generating structured datasets from local files like PDFs, Word docs, images, and text. You upload a file and describe the kind of dataset you want. It extracts the content, uses semantic search to understand and gather relevant context, applies your instructions through a generated schema, and outputs clean, structured data. Perfect for converting raw or unstructured local documents into ready-to-use datasets for training, analysis, or experimentation, all without manual formatting.
+thesius-localgen-cli is a terminal tool for generating structured datasets from local files like PDFs, Word docs, images, and text. You upload a file and describe the kind of dataset you want. It extracts the content, uses semantic search to understand and gather relevant context, applies your instructions through a generated schema, and outputs clean, structured data. Perfect for converting raw or unstructured local documents into ready-to-use datasets for training, analysis, or experimentation, all without manual formatting.
 
 
 ## How It Works
