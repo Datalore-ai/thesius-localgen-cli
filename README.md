@@ -11,9 +11,9 @@
 </p>
 <br/>
 <br/>
-<div align="center">
+<!-- <div align="center">
   <img src="./assets/local_file_dataset.gif" alt="Deep Research Demo" />
-</div>
+</div> -->
 
 
 ## Overview
