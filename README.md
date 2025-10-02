@@ -39,7 +39,7 @@ thesius-localgen-cli is a terminal tool for generating structured datasets from 
 
 ## Workflow
 
-This diagram shows how Datalore takes a local file and an instruction, extracts and understands the content, and turns it into a structured dataset.
+This diagram shows how Thesius takes a local file and an instruction, extracts and understands the content, and turns it into a structured dataset.
 
 ![Deep Research Workflow](./assets/Local_File.png)
 
@@ -58,8 +58,8 @@ You can download it from the official [uv GitHub repository](https://github.com/
 ### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/Datalore-ai/datalore-localgen-cli.git
-cd datalore-localgen-cli
+git clone https://github.com/Thesius-ai/thesius-localgen-cli.git
+cd thesius-localgen-cli
 ```
 
 ### 2. Create a Virtual Environment
