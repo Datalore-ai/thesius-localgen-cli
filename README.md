@@ -1,4 +1,6 @@
-# Oqura.ai - Local dataset generator
+<p align="center">
+  <img src="./logo.png" alt="Oqura.ai" width="700"/>
+</p>
 <p align="center">
   <a href="https://github.com/Oqura-ai/local-datagen-cli/stargazers"><img src="https://img.shields.io/github/stars/Oqura-ai/local-datagen-cli?style=flat-square" alt="GitHub Stars"></a>
   <a href="https://github.com/Oqura-ai/local-datagen-cli/blob/main/LICENSE"><img src="https://img.shields.io/github/license/Oqura-ai/local-datagen-cli?style=flat-square&color=purple" alt="License"></a>
