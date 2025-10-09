@@ -1,6 +1,8 @@
+# Oqura.ai - Local dataset generator
+
 ## Overview
 
-thesius-localgen-cli is a terminal tool for generating structured datasets from local files like PDFs, Word docs, images, and text. You upload a file and describe the kind of dataset you want. It extracts the content, uses semantic search to understand and gather relevant context, applies your instructions through a generated schema, and outputs clean, structured data. Perfect for converting raw or unstructured local documents into ready-to-use datasets for training, analysis, or experimentation, all without manual formatting.
+Oqura's local-datagen-cli is a terminal tool for generating structured datasets from local files like PDFs, Word docs, images, and text. You upload a file and describe the kind of dataset you want. It extracts the content, uses semantic search to understand and gather relevant context, applies your instructions through a generated schema, and outputs clean, structured data. Perfect for converting raw or unstructured local documents into ready-to-use datasets for training, analysis, or experimentation, all without manual formatting.
 
 
 ## How It Works
@@ -21,7 +23,7 @@ thesius-localgen-cli is a terminal tool for generating structured datasets from 
 
 ## Workflow
 
-This diagram shows how Thesius takes a local file and an instruction, extracts and understands the content, and turns it into a structured dataset.
+This diagram shows how the tool takes a local file and an instruction, extracts and understands the content, and turns it into a structured dataset.
 
 ![Deep Research Workflow](./assets/Local_File.png)
 
@@ -40,8 +42,8 @@ You can download it from the official [uv GitHub repository](https://github.com/
 ### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/Thesius-ai/thesius-localgen-cli.git
-cd thesius-localgen-cli
+git clone https://github.com/Oqura-ai/local-datagen-cli.git
+cd local-datagen-cli
 ```
 
 ### 2. Create a Virtual Environment
