@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="./logo.png" alt="Oqura.ai" width="700"/>
+  <img src="./assets/logo.png" alt="Oqura.ai" width="700"/>
 </p>
 <p align="center">
   <a href="https://github.com/Oqura-ai/local-datagen-cli/stargazers"><img src="https://img.shields.io/github/stars/Oqura-ai/local-datagen-cli?style=flat-square" alt="GitHub Stars"></a>
